@@ -73,7 +73,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Sua Hugging Face API Key
-HF_TOKEN = "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"
+HF_TOKEN = "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"
 
 # Cria o cliente da API
 client = InferenceClient(
