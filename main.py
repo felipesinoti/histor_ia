@@ -70,7 +70,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-HF_TOKEN = "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" # Usadas para fins de teste
+HF_TOKEN = st.secrets["HF_TOKEN"]
 
 client = InferenceClient(
     model="mistralai/Mistral-7B-Instruct-v0.2",
