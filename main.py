@@ -73,7 +73,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Sua Hugging Face API Key
-HF_TOKEN = "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"
+HF_TOKEN = "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"
 
 # Cria o cliente da API
 client = InferenceClient(
@@ -203,7 +203,7 @@ if submit_button and user_input:
             
         resposta = client.chat_completion(
             messages=[
-                {"role": "system", "content": "Você é um narrador criativo de Ordem Paranormal RPG. Narre em até 5 frases e sempre finalize a última frase. Seja breve, direto e imersivo."},
+                {"role": "system", "content": "Você é um narrador criativo de Ordem Paranormal RPG em portugues-br. Narre em até 5 frases e sempre finalize a última frase. Seja breve, direto e imersivo."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
