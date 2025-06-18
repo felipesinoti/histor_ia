@@ -1,6 +1,9 @@
 import streamlit as st
 from huggingface_hub import InferenceClient
-import time  # Adicionei esta linha para o spinner
+import time
+import streamlit as st
+import streamlit.components.v1 as components
+
 
 # CSS temático de Ordem Paranormal
 st.markdown("""
@@ -93,8 +96,71 @@ if "mensagens" not in st.session_state:
     st.session_state.mensagens = []
 
 # Título da app
-st.markdown("<h1 class='title-text'> Histor.IA</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='title-text'>Histor.IA</h1>", unsafe_allow_html=True)
 st.caption("Uma experiência interativa de storytelling inspirado no universo de Ordem Paranormal RPG")
+
+components.html("""
+    <html>
+    <head>
+        <style>
+            p{
+                font-family: fantasy;
+            }
+            
+            .typing-text {
+                display: inline-block;
+                color: #a239ca;
+            }
+
+            .dynamic-header {
+                color: #e7dfdd;
+                background-color: #0e0b16;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="dynamic-header">
+            <p>Crie uma história <span id="dynamic-text" class="typing-text"></span></p>
+        </div>
+
+        <script>
+        const words = ["única...", "cheia de enigmas...", "dramática...", "imersiva...", "de tirar o fôlego...", "paranormal..."];
+        const dynamicText = document.getElementById("dynamic-text");
+
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 150;
+        let displayTime = 2500;
+
+        function typeEffect() {
+            if (!dynamicText) return;
+
+            const currentWord = words[wordIndex];
+            dynamicText.textContent = currentWord.substring(0, charIndex);
+
+            if (!isDeleting && charIndex < currentWord.length) {
+                charIndex++;
+                setTimeout(typeEffect, typingSpeed);
+            } else if (isDeleting && charIndex > 0) {
+                charIndex--;
+                setTimeout(typeEffect, typingSpeed / 2);
+            } else {
+                isDeleting = !isDeleting;
+                if (!isDeleting) {
+                    wordIndex = (wordIndex + 1) % words.length;
+                    setTimeout(typeEffect, typingSpeed);
+                } else {
+                    setTimeout(typeEffect, displayTime);
+                }
+            }
+        }
+
+        window.onload = typeEffect;
+        </script>
+    </body>
+    </html>
+""", height=80)
 
 # Exibir conversa
 for autor, texto in st.session_state.mensagens:
@@ -141,7 +207,8 @@ if submit_button and user_input:
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
-            max_tokens=120,
+            max_tokens=1200,
+            stop=["Usuário:", "Narrador:", "Você:"],  # evita transbordo
         )
 
         resposta_texto = resposta.choices[0].message["content"].strip()
