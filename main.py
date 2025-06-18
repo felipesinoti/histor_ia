@@ -90,7 +90,7 @@ if "mensagens" not in st.session_state:
     st.session_state.mensagens = []
 
 st.markdown("<h1 class='title-text'>Histor.IA</h1>", unsafe_allow_html=True)
-st.caption("Uma experiência interativa de storytelling inspirado no universo de Ordem Paranormal RPG")
+st.caption("Uma experiência interativa de storytelling inspirada no universo de Ordem Paranormal RPG")
 
 components.html("""
     <html>
