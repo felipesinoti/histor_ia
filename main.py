@@ -208,7 +208,7 @@ if submit_button and user_input:
             ],
             temperature=0.7,
             max_tokens=1200,
-            stop=["Usuário:", "Narrador:", "Você:"],  # evita transbordo
+            stop=["Usuário:", "Narrador:"],  # evita transbordo
         )
 
         resposta_texto = resposta.choices[0].message["content"].strip()
