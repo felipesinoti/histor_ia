@@ -4,8 +4,6 @@ import time
 import streamlit as st
 import streamlit.components.v1 as components
 
-
-# CSS temático de Ordem Paranormal
 st.markdown("""
 <style>
     /* Fundo escuro e texto principal */
@@ -72,16 +70,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Sua Hugging Face API Key
-HF_TOKEN = "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"
+HF_TOKEN = "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" # Usadas para fins de teste
 
-# Cria o cliente da API
 client = InferenceClient(
     model="mistralai/Mistral-7B-Instruct-v0.2",
     token=HF_TOKEN
 )
 
-# Função para carregar base histórica
 def carregar_historia_base():
     try:
         with open("base_historia.txt", "r", encoding="utf-8") as f:
@@ -91,11 +86,9 @@ def carregar_historia_base():
 
 historia_base = carregar_historia_base()
 
-# Estado da conversa
 if "mensagens" not in st.session_state:
     st.session_state.mensagens = []
 
-# Título da app
 st.markdown("<h1 class='title-text'>Histor.IA</h1>", unsafe_allow_html=True)
 st.caption("Uma experiência interativa de storytelling inspirado no universo de Ordem Paranormal RPG")
 
@@ -162,7 +155,6 @@ components.html("""
     </html>
 """, height=80)
 
-# Exibir conversa
 for autor, texto in st.session_state.mensagens:
     if autor == "Você":
         st.markdown(f"""
@@ -177,18 +169,16 @@ for autor, texto in st.session_state.mensagens:
         </div>
         """, unsafe_allow_html=True)
 
-# Formulário com botão Enviar
 with st.form(key='chat_form'):
     user_input = st.text_input("Você:", key="user_input")
     submit_button = st.form_submit_button(label="Enviar")
 
 if submit_button and user_input:
     with st.spinner('Consultando os mistérios...'):
-        time.sleep(0.5)  # Simula um pequeno delay para o spinner aparecer
+        time.sleep(0.3)
         
         st.session_state.mensagens.append(("Você", user_input))
 
-        # Prompt para o modelo
         prompt = """Você é um narrador de RPG com estilo investigação, mistério e terror. Gosta de descrever com emoção e drama. 
         Evita longas explicações. Foca em criar tensão e atmosfera.
         Exemplos do seu estilo:
@@ -208,11 +198,10 @@ if submit_button and user_input:
             ],
             temperature=0.7,
             max_tokens=1200,
-            stop=["Usuário:", "Narrador:"],  # evita transbordo
+            stop=["Usuário:", "Narrador:"], 
         )
 
         resposta_texto = resposta.choices[0].message["content"].strip()
         st.session_state.mensagens.append(("Narrador", resposta_texto))
-        
-        # Força a atualização da página para mostrar as novas mensagens
+    
         st.rerun()
